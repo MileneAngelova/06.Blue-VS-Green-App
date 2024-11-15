@@ -1,0 +1,55 @@
+services:
+    vote:
+        container_name: vote
+        networks:
+            - backend
+        ports:
+            - 5000:80
+        volumes:
+            - vote:/app
+        image: vote
+    result:
+        container_name: result
+        networks:
+            - backend
+        ports:
+            - 5001:80
+        volumes:
+            - result:/app
+        image: result
+    worker:
+        container_name: worker
+        networks:
+            - backend
+        image: worker
+    redis:
+        container_name: redis
+        networks:
+            - backend
+        image: redis
+    postgres:
+        container_name: postgresdb
+        networks:
+            - backend
+        environment:
+            - POSTGRES_USER=postgres
+            - POSTGRES_PASSWORD=postgres
+        volumes:
+            - postgresdb:/var/lib/postgresql/data
+        image: postgres
+networks:
+    backend:
+        external: true
+        name: backend
+    frontend:
+        external: true
+        name: frontend    
+volumes:
+    vote:
+        external: true
+        name: vote
+    result:
+        name: result
+    postgresdb:
+        name: postgresdb
+    

@@ -3,8 +3,9 @@ services:
         container_name: vote
         networks:
             - backend
+            - frontend
         ports:
-            - 5000:80
+            - 5001:80
         volumes:
             - vote:/app
         image: vote
@@ -12,8 +13,9 @@ services:
         container_name: result
         networks:
             - backend
+            - frontend
         ports:
-            - 5001:80
+            - 5000:80
         volumes:
             - result:/app
         image: result
@@ -28,7 +30,7 @@ services:
             - backend
         image: redis
     postgres:
-        container_name: postgresdb
+        container_name: db
         networks:
             - backend
         environment:
@@ -39,14 +41,9 @@ services:
         image: postgres
 networks:
     backend:
-        external: true
-        name: backend
     frontend:
-        external: true
-        name: frontend    
 volumes:
     vote:
-        external: true
         name: vote
     result:
         name: result
